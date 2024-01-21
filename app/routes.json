@@ -1,0 +1,15 @@
+[
+    {
+      "path": "/",
+      "controller": "main",
+      "action": "index",
+      "method": "GET"
+    },
+    {
+      "path": "/add_note",
+      "controller": "note",
+      "action": "add_note",
+      "method": "POST"
+    }
+  ]
+  

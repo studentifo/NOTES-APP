@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Notes App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4">Start your notes</h1>
+                <form id="noteForm" class="mb-3">
+                    <div class="input-group">
+                        <input type="text" id="noteInput" class="form-control" placeholder="Add a new note" required>
+                        <button type="submit" class="btn btn-success custom-edit-button">Add note</button>
+                    </div>
+                </form>
+                <div id="notesList" class="border p-3"></div>
+            </div>
+        </div>
+    </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+            const noteForm = document.getElementById('noteForm');
+            const noteInput = document.getElementById('noteInput');
+            const notesList = document.getElementById('notesList');
+            let editingNoteId = null; // Track the note being edited
+          
+            // Load notes from localStorage when the page loads
+            loadNotes();
+          
+            noteForm.addEventListener('submit', function (event) {
+              event.preventDefault();
+              const noteText = noteInput.value.trim();
+          
+              if (noteText !== '') {
+                if (editingNoteId) {
+                  // If editing a note, update the existing note
+                  updateNoteInUI(editingNoteId, noteText);
+                  updateNoteInLocalStorage(editingNoteId, noteText);
+                  editingNoteId = null; // Reset editing state
+                } else {
+                  // If not editing, add a new note
+                  const noteId = new Date().getTime(); // Unique ID for each note
+                  const note = { id: noteId, text: noteText, createdAt: new Date() };
+          
+                  addNoteToUI(note);
+                  saveNoteToLocalStorage(note);
+                }
+          
+                noteInput.value = '';
+              }
+            });
+          
+            function addNoteToUI(note) {
+    const noteElement = document.createElement('div');
+    noteElement.className = 'note';
+    noteElement.dataset.noteId = note.id;
+
+    const noteText = document.createElement('div');
+    noteText.textContent = note.text;
+
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    editButton.className = 'edit-btn'; // Add the 'edit-btn' class
+    editButton.addEventListener('click', function () {
+        startEditing(note.id, note.text);
+    });
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', function () {
+        deleteNoteFromUI(note.id);
+        deleteNoteFromLocalStorage(note.id);
+    });
+
+    noteElement.appendChild(noteText);
+    noteElement.appendChild(editButton);
+    noteElement.appendChild(deleteButton);
+    notesList.appendChild(noteElement);
+}
+
+            function startEditing(noteId, noteText) {
+              noteInput.value = noteText;
+              editingNoteId = noteId;
+            }
+          
+            function updateNoteInUI(noteId, newText) {
+              const noteElement = document.querySelector(`.note[data-note-id="${noteId}"]`);
+              if (noteElement) {
+                const noteTextElement = noteElement.querySelector('div');
+                noteTextElement.textContent = newText;
+              }
+            }
+          
+            function updateNoteInLocalStorage(noteId, newText) {
+              let storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+              storedNotes = storedNotes.map((note) => {
+                if (note.id === noteId) {
+                  return { ...note, text: newText };
+                }
+                return note;
+              });
+              localStorage.setItem('notes', JSON.stringify(storedNotes));
+            }
+          
+            function deleteNoteFromUI(noteId) {
+              const noteElement = document.querySelector(`.note[data-note-id="${noteId}"]`);
+              if (noteElement) {
+                notesList.removeChild(noteElement);
+              }
+            }
+          
+            function saveNoteToLocalStorage(note) {
+              let storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+              storedNotes.push(note);
+              localStorage.setItem('notes', JSON.stringify(storedNotes));
+            }
+          
+            function deleteNoteFromLocalStorage(noteId) {
+              let storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+              storedNotes = storedNotes.filter((note) => note.id !== noteId);
+              localStorage.setItem('notes', JSON.stringify(storedNotes));
+            }
+          
+            function loadNotes() {
+              let storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+              storedNotes.forEach((note) => addNoteToUI(note));
+            }
+          });
+          </script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      </body>
+</body>
+</html>

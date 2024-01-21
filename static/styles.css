@@ -1,0 +1,118 @@
+body {
+    background-image: url('ba.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-color: hwb(256 3% 37%); 
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#app {
+    width: 700px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white; /* Set a background color for better visibility */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.custom-edit-button {
+    font-size: 18px;
+    padding: 10px 20px;
+    display: block;
+    margin: auto;
+  }
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    resize: none;
+  
+}
+#noteInput {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+button {
+    margin-top: 5px;
+    padding: 22px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    
+}
+.btn.btn-success.custom-edit-button {
+    display: block;
+    margin: auto;
+}
+
+
+button:hover {
+    background-color: #45a049;
+}
+
+#notesList {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+.note {
+    background-color: #f9f9f9;
+    margin-bottom: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column; /* Stack the text and buttons vertically */
+    align-items: flex-start; /* Align items to the start of the container */
+  }
+  
+  .buttons-container {
+    margin-top: 5px; /* Add some space between the text and buttons */
+    display: flex;
+    gap: 5px; /* Add some space between buttons */
+  }
+.note button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+}
+
+.note button:hover {
+    background-color: #c0392b;
+}
+.note button.edit-btn {
+    background-color: rgb(224, 231, 15); /* Set the background color for the edit button */
+    color: #000; /* Set the text color for better visibility */
+    border: none;
+    cursor: pointer;
+    padding: 8px 24px;
+}
+
+.note button.edit-btn:hover {
+    background-color: #e6e600; /* Set the background color on hover */
+}
