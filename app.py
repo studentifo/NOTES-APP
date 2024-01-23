@@ -1,4 +1,5 @@
 import json
+from flask import Flask
 from pathlib import Path
 from importlib import import_module
 from flask import Flask, render_template, request, redirect, url_for
@@ -52,4 +53,4 @@ def add_note():
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
-   app.run(debug=False,host="0.0.0.0")
+   app.run()
